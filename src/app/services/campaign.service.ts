@@ -4,6 +4,7 @@ import { Campaign } from '../models/Campaign';
 import { Observable } from 'rxjs';
 import { Donation } from '../models/Donation';
 import { Comment } from '../models/Comment';
+import { User } from '../models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -50,5 +51,9 @@ export class CampaignService {
 
   makeDonation(campaignId: number, donation: Donation): Observable<Donation> {
     return this.http.post<Donation>(`${this.apiUrl}/campaigns/${campaignId}/donations`, donation);
+  }
+  registerUser(user: User) {
+    console.log(user)
+    return this.http.post<User>("http://localhost:8080/helpinghands/users/register", user);
   }
 }

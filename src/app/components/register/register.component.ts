@@ -4,6 +4,8 @@ import { UserService } from '../../services/user.service';
 import { Router } from '@angular/router';
 import { User } from '../../models/user';
 import { Token } from '../../models/token';
+import { CampaignService } from '../../services/campaign.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-register',
@@ -15,7 +17,7 @@ export class RegisterComponent {
   hayError: boolean = false;
 
 
-  constructor(private userService: UserService, private formBuilder: FormBuilder, private router: Router) { }
+  constructor(private userService: UserService, private formBuilder: FormBuilder, private router: Router, private campaignService: CampaignService, private http: HttpClient) { }
 
   ngOnInit() {
     this.crearForm();
@@ -28,24 +30,23 @@ export class RegisterComponent {
     })
   }
 
-  login() {
-    const user: User = {
-      id: 0,
+  register() {
+    const user = {
       userName: this.loginForm.get('userName')?.value,
       password: this.loginForm.get('password')?.value,
       enabled: true,
-      authorities: ""
+      authorities: "CONSULTA;REGISTRO"
     };
-
-    this.userService.login(user).subscribe({
-      next: (data: Token) => {
-        this.router.navigate(["/home"]);
-      },
-      error: (err) => {
-        this.hayError = true;
-        console.log(err);
-      }
-    })
+    this.http.post('http://localhost:8080/helpinghands/users/register', user)
+      .subscribe({
+        next: data => {
+          console.log('Registro exitoso:', data);
+          this.router.navigate(['/login']);
+        },
+        error: err => {
+          console.error('Error al registrar:', err);
+        }
+      });
   }
 
 }

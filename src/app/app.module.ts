@@ -11,7 +11,7 @@ import { ConfirmarEliminarComponent } from './components/confirmaciones/confirma
 import { LoginComponent } from './components/login/login.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { RegisterComponent } from './components/register/register.component';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS, provideHttpClient } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from './modules/material/material.module';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
@@ -82,7 +82,8 @@ import { DetailsComponent } from './components/details/details.component';
     { provide: HTTP_INTERCEPTORS, useClass: AutorizacionInterceptor, multi: true },
     ConsultaGuard,
     LogeadoGuard,
-    RegistroGuard
+    RegistroGuard,
+
   ],
   bootstrap: [AppComponent]
 })
