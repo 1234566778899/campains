@@ -40,8 +40,8 @@ export class DetailsComponent implements OnInit {
     if (name) {
       this.campaignService.getCampaignByName(name).subscribe(
         (data: Campaign[]) => {
-          console.log(data)
           this.campaign = data[0];
+          this.getComments(data[0].id)
         },
         (error) => {
           console.error('Error al obtener la campaña', error);
@@ -49,22 +49,27 @@ export class DetailsComponent implements OnInit {
       );
     }
   }
-
+  getComments(id: Number) {
+    console.log(this.campaign)
+    this.campaignService.getCommentsByCampaign(id).subscribe(
+      (data: Comment[]) => {
+        this.comments = data
+      }
+    )
+  }
   // Método para agregar un comentario
   addComment(): void {
 
     if (this.campaign) {
-      console.log(this.campaign.id)
       const comment: Comment = {
         id: 0,
         comment_date: new Date().toDateString(),
         comment_text: this.formComment.get('description')?.value,
         campaign: { id: this.campaign.id },
       }
-      console.log(comment)
       this.campaignService.addComment(comment).subscribe(
-        (comment: Comment) => {
-          this.getCampaign();
+        (_comment: Comment) => {
+          this.getComments(this.campaign?.id || 1);
         }
       )
 

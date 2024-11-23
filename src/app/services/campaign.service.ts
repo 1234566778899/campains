@@ -56,4 +56,7 @@ export class CampaignService {
     console.log(user)
     return this.http.post<User>("http://localhost:8080/helpinghands/users/register", user);
   }
+  getCommentsByCampaign(id: Number) {
+    return this.http.get<Comment[]>(`http://localhost:8080/helpinghands/comments/campaign/${id}`);
+  }
 }

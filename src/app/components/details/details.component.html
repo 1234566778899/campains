@@ -56,7 +56,7 @@
             <hr>
             <br>
             <ul>
-                <li *ngFor="let comment of campaign.comments"
+                <li *ngFor="let comment of comments"
                     class="mb-2 p-2 border rounded">
                     <p>{{ comment.comment_text }}</p>
                     <small>{{ comment.comment_date | date:'short' }}</small>
